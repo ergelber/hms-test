@@ -1,0 +1,38 @@
+body {
+  padding: 5%;
+}
+
+.title {
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 20px;
+  font-weight: 800;
+}
+
+.admin-button {
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.participants {
+  width: 700px;
+}
+
+.main {
+  width: 500px;
+}
+
+.form-error {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #a94442;
+}
+
+.accepted {
+  color: #3c763d;
+}
+
+.not-accepted {
+  color: #a94442;
+}
