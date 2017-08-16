@@ -9,11 +9,11 @@ npm start
 
 ### Frontend
  
-The code uses react, redux and react-router on the frontend. All frontend code javascript code is in the src folder. The entry level component is index.js and defines the two routes. The Main and Admin components provide the top level component for each route, while AdminTable and Form are provide more reusable functionality of a generic table and form respectively. 
+The code uses react, redux and react-router on the frontend. All frontend javascript code is in the src folder. The entry level component is index.js and defines the two routes. The Main and Admin components provide the top level component for each route, while AdminTable and Form are more generic/reusable. 
  
  ### Backend
  
- The backend is a simple express app using Node.js. It contains three endpoints for adding, deleting and updating a participant. Since the data is not stored in a database, backend contains a hardcoded array of two participants and all endpoints modify this array. 
+The backend is a simple express app using Node.js. It contains three endpoints for adding, deleting and updating a participant. Since the data is not stored in a database, the backend contains a hardcoded array of two participants and all endpoints modify this array. 
  
  ### Frontend Improvements
  
