@@ -21,5 +21,4 @@ npm start
  
  ### Backend improvements
  
- The server code should never store data. As such it is not a truly RESTful application. It should be hooked up with the database and contain some security layers and permission. In other words the participant object would need additional properties. Likewise, the PUT AP
-I uses an index to modify the correct participant, it would be better to use a primary key or some other unique value instead.
+ The server code should never store data. As such it is not a truly RESTful application. It should be hooked up with the database and contain some security layers and permission. In other words the participant object would need additional properties. Likewise, the PUT API uses an index to modify the correct participant, it would be better to use a primary key or some other unique value instead.
