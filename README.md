@@ -23,6 +23,6 @@ The code uses react, redux and react-router on the frontend. All frontend code j
  
  ### Backend improvements
  
-* The server code should never store data. As such it is not a truly RESTful application. It should be hooked up with the database and contain some security layers and permission. In other words the participant object would need additional properties. 
+* The server code should never store data. As such it is not a truly RESTful application. It should be hooked up with the database and contain some security layers and permissions. In other words the participant object would need additional properties, such as role, id, etc. 
 * The PUT API uses an index to modify the correct participant, it would be better to use a primary key or some other unique value instead. 
 * Port should not be hardcoded.
