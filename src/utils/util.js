@@ -38,3 +38,8 @@ export const setInitialState = (formProps) => {
     return result;
   }, {});
 }
+
+// check if input is a number
+export const isANumber = (input) => {
+  return !isNaN(parseInt(input)) && parseInt(input) === +input;
+}

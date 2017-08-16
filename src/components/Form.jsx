@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { ControlLabel, FormGroup, FormControl, HelpBlock, Button } from 'react-bootstrap';
 
-import { setInitialState } from '../utils/formProps';
+import { setInitialState, isANumber } from '../utils/util';
 
 // the form is reusable in that it gets passes all the actions and data it needs and renders it agnostically
 // with more time it could be made more flexible by removing the hardcoded values and passing them as props
@@ -22,7 +22,7 @@ class Form extends Component {
     const formState = this.state[formElem];
     if(checkForEmpty && !formState) return 'empty';
     // check if form property is an integer
-    return ( !checkForEmpty && ( isNaN(parseInt(formState)) || formState < 0 )) ? 'error' : 'success';
+    return ( !checkForEmpty && isANumber(formState) && formState >= 0 ) ? 'success' : 'error';
   }
 
   handleInputChange(event) {

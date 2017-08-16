@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 
 import { createParticipant } from '../actions/actions';
 import Form from './Form';
-import { formProps } from '../utils/formProps';
+import { formProps } from '../utils/util';
 
 // this main component wraps the form so that the form is a dumb component
 // also most likely, there would be other components rendered on the page alongside the form
