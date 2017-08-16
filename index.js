@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = 3001;
 
 const participants = [{
   name: 'John Doe',
