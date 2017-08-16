@@ -19,7 +19,7 @@ The code uses react, redux and react-router on the frontend. All frontend code j
  
  * If this app were to go into production, it would need to be refactored to remove hardcoded values, such as formProps. 
  * The validation and submit functions in Form.jsx should be refactored so that the form can be reused elsewhere in the application. 
- * The convertToJsx function in Admin.jsx could be cleaner but instead focused on removing the specific column implementation of the table to make it nore extensible.
+ * The convertToJsx function in Admin.jsx could be cleaner but instead focused on removing the specific column implementation of the table to make it more modular.
  
  ### Backend improvements
  
