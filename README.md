@@ -4,8 +4,7 @@ To run the code, execute the following commands and go to Go to localhost:3001
 
 ```
 npm install
-npm run build
-node index.js
+npm start
 ```
 
 ### Frontend
