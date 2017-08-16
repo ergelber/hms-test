@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
-const _ = require('lodash');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -44,9 +43,9 @@ app.route('/api/participants')
     res.send(req.body);
   })
   .put((req, res, err) => {
-    const participant = _.find(participants, ['name', req.body.name]);
+    const participant = participants[req.body.idx];
     participant.reviewed = req.body.reviewed;
-    res.send(participant);
+    res.send({participant, idx: req.body.idx});
   });
 
 app.get('*', (req, res) => {

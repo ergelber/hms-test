@@ -18,11 +18,14 @@ class Form extends Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
-  getValidationState(formElem, checkForEmpty) {
+  getValidationState(formElem, checkForEmpty, checkNum) {
     const formState = this.state[formElem];
     if(checkForEmpty && !formState) return 'empty';
-    // check if form property is an integer
-    return ( !checkForEmpty && isANumber(formState) && formState >= 0 ) ? 'success' : 'error';
+    else if(formElem === 'age') {
+      return (isANumber(formState) && formState >= 0 ) ? 'success' : 'error';
+    }
+    return true;
+    
   }
 
   handleInputChange(event) {
@@ -41,7 +44,7 @@ class Form extends Component {
     // final validation to check if any fields are null or invalid
     _.each(this.props.formProps, (propObj) => {
       if(isValid) {
-        const containsError = this.getValidationState(propObj.name, true);
+        const containsError = this.getValidationState(propObj.name, true, true);
         if(containsError === 'empty') {
           message = 'All fields must be filled in';
           isValid = false;
@@ -78,7 +81,7 @@ class Form extends Component {
               <FormGroup 
                 key={elem.name}
                 controlId={elem.name}
-                validationState={( elem.validation.length > 0 && this.state[elem.name] ) ? this.getValidationState(elem.name) : null} >
+                validationState={( elem.validation.length > 0 && this.state[elem.name] ) ? this.getValidationState(elem.name, null, true) : null} >
                 <ControlLabel>{_.startCase(elem.name)}</ControlLabel>
                 <FormControl 
                   id={elem.name}

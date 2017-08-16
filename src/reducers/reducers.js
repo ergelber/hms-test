@@ -10,9 +10,9 @@ const participantReducer = (state = [], action) => {
 			return [...state, action.payload];
 		case 'CHANGE_REVIEWED':
 			return _.map(state, (participant, index) => {
-				if (participant.name === action.payload.name) {
+				if (action.payload.idx === index) {
 					return Object.assign({}, participant, {
-						reviewed: action.payload.reviewed
+						reviewed: action.payload.participant.reviewed
 					})
 				}
 				return participant;

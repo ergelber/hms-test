@@ -21,7 +21,7 @@ class Admin extends Component {
   }
 
   handleInputChange(e, i) {
-    this.props.changeReviewed({reviewed: e.target.value, name: this.props.participantState[i].name});
+    this.props.changeReviewed({reviewed: e.target.value, idx: i});
   }
 
   // this function is passed to the AdminTable to tell it how to transform the data to jsx
@@ -40,7 +40,7 @@ class Admin extends Component {
             return (
               <td key={key + i}>
                 <FormControl 
-                  name={key}
+                  name={key + i}
                   componentClass='select'
                   onChange={(e) => this.handleInputChange(e, i)}
                   value={this.props.participantState[i].reviewed} 

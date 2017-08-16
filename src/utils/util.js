@@ -31,7 +31,6 @@ export const formProps = [
 ]
 
 // set all state props passed in to empty string to make compatible with form
-// except formMessage which is not in the form
 export const setInitialState = (formProps) => {
   return _.reduce(formProps, function(result, elem) {
     result[elem.name] = '';
