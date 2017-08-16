@@ -1,18 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import { FormControl, Button } from 'react-bootstrap';
 
 import AdminTable from './AdminTable';
+import { getParticipants, changeReviewed } from '../actions/actions';
 
-class Admin extends React.Component {
+class Admin extends Component {
   constructor(props) {
     super(props);
-    // store the most recently changed "reviewed item" in local state for highlighting
-    this.state = {
-      selectedIdx: null
-    }
 
     // bind class functions in constructor so only created once
     this.convertToGrid = this.convertToGrid.bind(this);
@@ -25,21 +22,19 @@ class Admin extends React.Component {
 
   handleInputChange(e, i) {
     this.props.changeReviewed({reviewed: e.target.value, name: this.props.participantState[i].name});
-    this.setState({selectedIdx: parseInt(i, 10)});
   }
 
   // this function is passed to the AdminTable to tell it how to transform the data to jsx
   // by having the conversion passed to the AdminTable, 
   // it makes the AdminTable more flexible and resuable
   convertToGrid(participant, i) {
-    const self = this;
     const reviewedStatusClass = (reviewed) => {
       if(reviewed === 'Reviewed -- Accepted') return 'accepted';
       else if (reviewed === 'Reviewed -- Not Accepted') return 'not-accepted';
       return null;
     }
     return ( 
-      <tr key={i} className={reviewedStatusClass(self.props.participantState[i].reviewed)}>
+      <tr key={i} className={reviewedStatusClass(this.props.participantState[i].reviewed)}>
         { _.map(participant, (value, key) => {
           if(key === 'reviewed') { 
             return (
@@ -47,9 +42,9 @@ class Admin extends React.Component {
                 <FormControl 
                   name={key}
                   componentClass='select'
-                  onChange={(e) => self.handleInputChange(e, i)}
-                  value={self.props.participantState[i].reviewed} 
-                  className={reviewedStatusClass(self.props.participantState[i].reviewed)} >
+                  onChange={(e) => this.handleInputChange(e, i)}
+                  value={this.props.participantState[i].reviewed} 
+                  className={reviewedStatusClass(this.props.participantState[i].reviewed)} >
                   <option value='Not Reviewed'>Not Reviewed</option>
                   <option value='Reviewed -- Accepted'>Reviewed -- Accepted</option>
                   <option value='Reviewed -- Not Accepted'>Reviewed -- Not Accepted</option>
@@ -76,6 +71,13 @@ class Admin extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getParticipants: () => dispatch(getParticipants()),
+    changeReviewed: (payload) => dispatch(changeReviewed(payload))
+  }
+}
+
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(Admin);
+export default connect(mapStateToProps, mapDispatchToProps)(Admin);

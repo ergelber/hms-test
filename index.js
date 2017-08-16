@@ -35,26 +35,19 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-app.get('/api/participants', (req, res, err) => {
-  res.send(participants);
-});
-
-app.post('/api/participants', (req, res, err) => {
-  participants.push(req.body);
-  res.send(req.body);
-});
-
-app.put('/api/participants', (req, res, err) => {
-  const participant = _.find(participants, ['name', req.body.name]);
-  participant.reviewed = req.body.reviewed;
-  res.send(participant);
-});
+app.route('/api/participants')
+  .get((req, res, err) => {
+    res.send(participants);
+  })
+  .post((req, res, err) => {
+    participants.push(req.body);
+    res.send(req.body);
+  })
+  .put((req, res, err) => {
+    const participant = _.find(participants, ['name', req.body.name]);
+    participant.reviewed = req.body.reviewed;
+    res.send(participant);
+  });
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '.', 'build', 'index.html'));

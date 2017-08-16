@@ -1,25 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import { ControlLabel, FormGroup, FormControl, HelpBlock, Button } from 'react-bootstrap';
 
-// set all state props passed in to empty string to make compatible with form
-// except formMessage which is not in the form
-const setInitialState = (formProps, message) => {
-  const initialState = _.reduce(formProps, function(result, elem) {
-    result[elem.name] = '';
-    return result;
-  }, {});
-  initialState.formMessage = message;
-  return initialState;
-}
+import { setInitialState } from '../utils/formProps';
 
 // the form is reusable in that it gets passes all the actions and data it needs and renders it agnostically
 // with more time it could be made more flexible by removing the hardcoded values and passing them as props
-class Form extends React.Component {
+class Form extends Component {
   constructor(props) {
     super(props);
     // store temporary changes to the form in local state
-    this.state = setInitialState(this.props.formProps);
+    this.state = Object.assign({}, setInitialState(this.props.formProps), { formMessage: '' });
 
     // bind class functions in constructor so only created once
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -27,13 +18,11 @@ class Form extends React.Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
-  getValidationState(formElem) {
-    const formState = this.state[formElem.name];
-    // check if form property requires validation
-    if(formElem.validation.length === 0 || formState === '') return null;
+  getValidationState(formElem, checkForEmpty) {
+    const formState = this.state[formElem];
+    if(checkForEmpty && !formState) return 'empty';
     // check if form property is an integer
-    const validationState = isNaN(parseInt(formState, 10)) || formState < 0 ? 'error' : 'success';
-    return validationState;
+    return ( !checkForEmpty && ( isNaN(parseInt(formState)) || formState < 0 )) ? 'error' : 'success';
   }
 
   handleInputChange(event) {
@@ -47,17 +36,17 @@ class Form extends React.Component {
 
   submitForm(e) {
     e.preventDefault();
-    const self = this;
     let message = '';
     let isValid = true;
     // final validation to check if any fields are null or invalid
-    _.each(self.props.formProps, (propObj) => {
-      if(isValid !== false) {
-        if(self.state[propObj.name] === ''){
+    _.each(this.props.formProps, (propObj) => {
+      if(isValid) {
+        const containsError = this.getValidationState(propObj.name, true);
+        if(containsError === 'empty') {
           message = 'All fields must be filled in';
           isValid = false;
-        } 
-        else if(propObj.validation.length !== 0 && self.getValidationState(propObj) === 'error') {
+        }
+        else if(containsError === 'error') {
           message = 'Age must be a positive integer';
           isValid = false;
         }
@@ -68,9 +57,6 @@ class Form extends React.Component {
       newUser.reviewed = 'Not Reviewed';
       // action to add new participant 
       this.props.createParticipant(newUser);
-      // reset state
-      const refreshedState = setInitialState(this.props.formProps, message);
-      this.setState(refreshedState);
       // redirect to admin page (table of participants)
       this.props.push('/admin');
     } else {
@@ -92,7 +78,7 @@ class Form extends React.Component {
               <FormGroup 
                 key={elem.name}
                 controlId={elem.name}
-                validationState={this.getValidationState(elem) } >
+                validationState={( elem.validation.length > 0 && this.state[elem.name] ) ? this.getValidationState(elem.name) : null} >
                 <ControlLabel>{_.startCase(elem.name)}</ControlLabel>
                 <FormControl 
                   id={elem.name}

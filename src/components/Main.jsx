@@ -1,42 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 
+import { createParticipant } from '../actions/actions';
 import Form from './Form';
-
-// hardcoded the formProps for the exercise but should be coming from a db
-const formProps = [
-  {
-    name: 'name',
-    type: 'input',
-    validation: []
-  },
-  {
-    name: 'age',
-    type: 'input',
-    validation: ['integer']
-  },
-  {
-    name: 'siblings',
-    type: 'select',
-    options: ['yes', 'no'],
-    validation: []
-  },
-  {
-    name: 'environmentalExposures',
-    type: 'input',
-    validation: []
-  },
-  {
-    name: 'geneticMutations',
-    type: 'input',
-    validation: []
-  }
-]
+import { formProps } from '../utils/formProps';
 
 // this main component wraps the form so that the form is a dumb component
 // also most likely, there would be other components rendered on the page alongside the form
-class Main extends React.Component {
+class Main extends Component {
   render() {
     return (
       <div className='main'>
@@ -53,7 +25,13 @@ class Main extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createParticipant: (payload) => dispatch(createParticipant(payload))
+  }
+}
+
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
 
